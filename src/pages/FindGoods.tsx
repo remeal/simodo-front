@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import FindForm from '../components/FindForm/FindForm';
 import GoodItem from '../components/GoodItem/GoodItem';
+import { Table } from 'react-bootstrap';
 
 
 const FindGoods = () => {
@@ -38,8 +39,20 @@ const FindGoods = () => {
             <FindForm/>
             <h3>Товары:</h3>
             { errors ? <div>Invalid tag value</div> : ''}
+            <Table striped hover>
+                <thead>
+                    <tr>
+                    <th>Артикул</th>
+                    <th>Наименование</th>
+                    <th>Стоимость</th>
+                    <th></th>
+                    <th></th>
+                    </tr>
+                </thead>
+                {resss ? <GoodItem data={resss}/> : ''}
+            </Table>
             {/* { res ? res?.data.map((good:any) => <GoodItem data={good}/>) : ''} */}
-            {resss ? <GoodItem data={resss}/> : ''}
+            
         </>
     )
 }

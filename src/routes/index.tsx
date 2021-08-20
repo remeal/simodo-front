@@ -1,5 +1,6 @@
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import AddGoods from '../pages/AddGoods';
+import EditGood from "../pages/EditGood";
 import FindGoods from "../pages/FindGoods";
 
 const Routes = () => {
@@ -13,6 +14,8 @@ const Routes = () => {
             </Route>
             <Route path='/find_goods'>
                 <FindGoods/>
+            </Route>
+            <Route path='/edit_good/:id' component={EditGood}>
             </Route>
         </Switch>
         </BrowserRouter>

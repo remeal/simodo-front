@@ -14,12 +14,15 @@ const FindForm = () => {
     const [errors, setError] = useState<any>(null);
 
     const handleFind = (e: React.ChangeEvent<any>) => {
-        values.item_number && axios.get('/goods/findByTags') //здесь непонятно как передавать параметры
+        values.category && axios.get('/goods/findByTags') //здесь непонятно как передавать параметры
             .then(res => res.data)
             .then(data => {setResponse(data)})
             .catch(error => {setError(error)});
         
-        values.category && axios.get('/goods/')
+        values.item_number && axios.get(`/goods/${values.item_number}`)
+            .then(res => res.data)
+            .then(data => {setResponse(data)})
+            .catch(error => {setError(error)});
     };
 
     const handleChange = (e: React.ChangeEvent<any>) => {

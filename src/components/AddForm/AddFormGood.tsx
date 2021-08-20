@@ -13,7 +13,7 @@ const initialValue = {
 };
 
 
-const AddForm = () => {
+const AddFormGood = () => {
 
     const errorPost = null;
     const response = null;
@@ -46,7 +46,6 @@ const AddForm = () => {
             hidden: values.hidden,
             image: values.image,
         }
-        console.log(goods);
         axios.post('/goods', {goods})
             .then(res => {
                 console.log(res);
@@ -100,4 +99,4 @@ const AddForm = () => {
     )
 };
 
-export default AddForm;
+export default AddFormGood;

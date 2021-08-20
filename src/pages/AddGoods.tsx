@@ -1,11 +1,11 @@
 import React from 'react';
-import AddForm from '../components/AddForm/AddForm'
+import AddFormGood from '../components/AddForm/AddFormGood'
 
 const AddGoods = () => {
     return (
         <>
             <h1>Добавить товар</h1>
-            <AddForm/>
+            <AddFormGood/>
         </>
     )
 }

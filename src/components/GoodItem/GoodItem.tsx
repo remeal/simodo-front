@@ -14,19 +14,13 @@ const GoodItem = (data:any) => {
     } = data.data;
 
     return (
-        <>
-            <div>
-                {item_number}
-            </div>
-            <div>
-                {name}
-            </div>
-            <div>
-                {price}
-            </div>
-            <AddButton item={item}/>
-            <DeleteButton item={item}/>
-        </>
+        <tr>
+            <td>{item_number}</td>
+            <td>{name}</td>
+            <td>{price}</td>
+            <td><AddButton item={item} id={item_number} type='goods'/></td>
+            <td><DeleteButton item={item} id={item_number} type='goods'/></td>
+        </tr>
     )
 }
 
