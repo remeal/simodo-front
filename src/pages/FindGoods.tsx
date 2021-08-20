@@ -25,12 +25,12 @@ const FindGoods = () => {
     const [errors, setError] = useState(errorGetGoods);
     const [res, setResponse] = useState<any>(null);
 
-    // useEffect(() => {
-    //     axios.get('/goods')
-    //         .then(res  => res.data)
-    //         .then(data => {setResponse(data)})
-    //         .catch(error => {setError(error)})
-    // });
+    useEffect(() => {
+        axios.get('/goods')
+            .then(res  => res.data)
+            .then(data => {setResponse(data)})
+            .catch(error => {setError(error)})
+    });
 
     return (
         <>
@@ -49,10 +49,9 @@ const FindGoods = () => {
                     <th></th>
                     </tr>
                 </thead>
-                {resss ? <GoodItem data={resss}/> : ''}
+                {/* {resss ? <GoodItem data={resss}/> : ''} */}
+                { res ? res?.data.map((good:any) => <GoodItem data={good}/>) : ''}
             </Table>
-            {/* { res ? res?.data.map((good:any) => <GoodItem data={good}/>) : ''} */}
-            
         </>
     )
 }
