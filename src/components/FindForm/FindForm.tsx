@@ -13,6 +13,19 @@ const FindForm = () => {
     const [res, setResponse] = useState<any>(null);
     const [errors, setError] = useState<any>(null);
 
+    const createFindForm = {
+        "action": "read",
+        "item": "order",
+        "params": "id",
+        "data": {
+            "field": {
+                "type": "text",
+                "name": "Введите артикул",
+            }
+        }
+    };
+    const dataForm = Object.entries(createFindForm.data);
+
     const handleFind = (e: React.ChangeEvent<any>) => {
         values.category && axios.get('/goods/findByTags') //здесь непонятно как передавать параметры
             .then(res => res.data)
@@ -33,32 +46,37 @@ const FindForm = () => {
         });
     };
 
-    return (
-        <Row className="mb-3">
-            <Form.Group as={Col} controlId="formGridCity">
-                    <FloatingLabel
-                        controlId="floatingInput"
-                        label="Введите артикул"
-                    >
-                    <Form.Control type="text" name="item_number" onChange={handleChange}/>
-                    </FloatingLabel>
-            </Form.Group>
+    const getNameTitle = (item: string) => {
+        if (item === "good") 
+            return 'товар';
+        if (item === "person")
+            return 'пользователя';
+        if (item === "order")
+            return 'заказ';
+    };
 
-            <Form.Group as={Col} controlId="formGridState">
-                <FloatingLabel controlId="floatingSelectGrid" label="Выберите категорию">
-                <Form.Select aria-label="Floating label select example" name="category" onChange={handleChange}>
-                    <option>Категория 0</option>
-                    <option value="1">Категория 1</option>
-                    <option value="2">Категория 2</option>
-                    <option value="3">Категория 3</option>
-                </Form.Select>
-                </FloatingLabel>
-            </Form.Group>
-
+    const renderForm = (
+        <>
+            {dataForm.map((value) => {
+                return(<Row className="mb-3">
+                    <Form.Group as={Col} controlId="formGridCity">
+                        <FloatingLabel
+                            controlId="floatingInput"
+                            label={value[1].name}
+                        >
+                        <Form.Control type={value[1].type} name={value[0]} onChange={handleChange}/>
+                        </FloatingLabel>
+                    </Form.Group>
+                </Row>)
+            })}
             <Form.Group as={Col} controlId="formGridZip">
-                <Button variant="primary" size="lg" onClick={handleFind}>Найти товар</Button>
+                <Button variant="primary" size="lg" onClick={handleFind}>Найти {getNameTitle(createFindForm.item)}</Button>
             </Form.Group>
-        </Row>
+        </>
+    );
+
+    return (
+        renderForm
     )
 }
 

@@ -1,17 +1,39 @@
 import axios from 'axios';
-import React, {useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, FloatingLabel, Form, Row } from 'react-bootstrap';
 
 const initialValue = {
     item_number: '',
     name: '',
-    category: '',
+    // category: '',
     price: 0,
-    description: '',
-    hidden: false,
-    image: '',
+    // description: '',
+    // hidden: false,
+    // image: '',
 };
 
+const createAddForm = {
+    "action": "create",
+    "item": "good",
+    "data": {
+        "name": {
+            "type": "text",
+            "name": "Наименование товара",
+        },
+        "price": {
+            "type": "number",
+            "name": "Цена товара",
+        },
+        "count": {
+            "type": "number",
+            "name": "Количество товара",
+        }
+    }
+};
+const dataForm = Object.entries(createAddForm.data);
+
+const createAddOrder = {"action": "create","data": {"item_number": "number","name": "text","score": "number", "status": "string"}};
+const dataOrder = Object.entries(createAddOrder.data);
 
 const AddFormGood = () => {
 
@@ -20,8 +42,16 @@ const AddFormGood = () => {
 
     const [values, setValues] = useState(initialValue);
     const [errors, setError] = useState(errorPost);
+    const [data, setData] = useState();
     const [responses, setResponse] = useState(response);
 
+    // useEffect(() => {
+    //     axios.get("")
+    //     .then(res => res.data)
+    //     .then(data => {setData(data)})
+    //     .catch(error => {setError(error)});
+    // });
+    
     const handleChange = (e: React.ChangeEvent<any>) => {
         const name = e.target.name;
         const value = e.target.type === 'checkbox' ? e.target.value = e.target.checked : e.target.value;
@@ -37,14 +67,14 @@ const AddFormGood = () => {
         const goods = {
             item_number: values.item_number,
             name: values.name,
-            category: {
-                name: values.category,
-                parent: '',
-            },
+            // category: {
+            //     name: values.category,
+            //     parent: '',
+            // },
             price: values.price,
-            description: values.description,
-            hidden: values.hidden,
-            image: values.image,
+            // description: values.description,
+            // hidden: values.hidden,
+            // image: values.image,
         }
         axios.post('/goods', {goods})
             .then(res => {
@@ -53,49 +83,34 @@ const AddFormGood = () => {
             })
             .catch(error => {setError(error)})
     }
-    return (
+
+    const getNameTitle = (item: string) => {
+        if (item === "good") 
+            return 'товар';
+        if (item === "person")
+            return 'пользователя';
+        if (item === "order")
+            return 'заказ';
+    };
+
+    const renderForm = (
         <>
-            <Row className="g-2">
-                <FloatingLabel controlId="floatingInputGrid" label='Артикул'>
-                    <Form.Control type="text" placeholder="text" name="item_number" onChange={handleChange}/>
-                </FloatingLabel>
-            </Row>
-            <Row className="g-2">
-                <FloatingLabel controlId="floatingInputGrid" label='Наименование'>
-                    <Form.Control type="text" placeholder="text" name="name" onChange={handleChange}/>
-                </FloatingLabel>
-            </Row>
-            <Row className="g-2">
-                <FloatingLabel controlId="floatingInputGrid" label='Стоимость'>
-                    <Form.Control type="number" placeholder="number" name="price" onChange={handleChange}/>
-                </FloatingLabel>
-            </Row>
-            <Row className="g-2">
-                <FloatingLabel controlId="floatingInputGrid" label='Описание'>
-                    <Form.Control type="text" placeholder="text" name="description" onChange={handleChange}/>
-                </FloatingLabel>
-            </Row>
-            <Row>
-                <FloatingLabel controlId="floatingSelectGrid" label="Выберите категорию">
-                    <Form.Select aria-label="Floating label select example" name="category" onChange={handleChange}>
-                        <option>Категория 0</option>
-                        <option value="1">Категория 1</option>
-                        <option value="2">Категория 2</option>
-                        <option value="3">Категория 3</option>
-                    </Form.Select>
-                </FloatingLabel>
-            </Row>
-            <Form.Group className="mb-3" id="formGridCheckbox">
-                <Form.Check type="checkbox" label="Скрытый" onChange={handleChange} name='hidden'/>
-            </Form.Group>
-            <Form.Group controlId="formFileMultiple" className="mb-3">
-                <Form.Label>Добавьте изображение товара</Form.Label>
-                <Form.Control type="file" multiple />
-            </Form.Group>
-            <Button variant="primary" size="lg" onClick={handleAdd}>Добавить товар</Button>
-            { errors ? <div>Ошибка: товар не добавлен!</div> : ''}
-            { responses ? <div>Товар добавлен!</div> : ''}
+            {dataForm.map((value) => {
+                return(<Row className="g-2">
+                    <FloatingLabel controlId="floatingInputGrid" label={value[1].name}>
+                        <Form.Control type={value[1].type} placeholder="text" name={value[0]} onChange={handleChange}/>
+                    </FloatingLabel>
+                </Row>)
+            })}
+            <Button variant="primary" size="lg" onClick={handleAdd}>Добавить {getNameTitle(createAddForm.item)}</Button>
+            { errors ? <div>Ошибка: {getNameTitle(createAddForm.item)} не добавлен!</div> : ''}
+            { responses ? <div>{getNameTitle(createAddForm.item)} добавлен!</div> : ''}
         </>
+    );
+    return (
+       <>
+       {createAddForm.data ? renderForm : null}
+       </>
     )
 };
 
