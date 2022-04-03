@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import { Alert } from "react-bootstrap";
-import EditFormGood from "../components/EditForm/EditFormGoods";
+import EditFormGood from "../components/UpdateItem/UpdateItem";
 
 const EditGood = (props:any) => {
 

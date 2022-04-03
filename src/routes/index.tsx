@@ -1,7 +1,7 @@
 import { Switch, Route, BrowserRouter } from "react-router-dom";
-import AddGoods from '../pages/AddGoods';
+import CreatePage from "../pages/CreatePage";
 import EditGood from "../pages/EditGood";
-import FindGoods from "../pages/FindGoods";
+import FindGoods from "../pages/AllItemsPage";
 
 const Routes = () => {
     return (
@@ -9,13 +9,13 @@ const Routes = () => {
         <Switch>
             <Route exact path='/'>
             </Route>
-            <Route path='/add_goods'>
-                <AddGoods/>
+            <Route path='/render/create'>
+                <CreatePage/>
             </Route>
-            <Route path='/find_goods'>
+            <Route path='/all'>
                 <FindGoods/>
             </Route>
-            <Route path='/edit_good/:id' component={EditGood}>
+            <Route path='/render/read' component={EditGood}>
             </Route>
         </Switch>
         </BrowserRouter>

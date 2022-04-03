@@ -5,7 +5,7 @@ const AddButton = (item:any) => {
     
     const handleClick = (e: React.ChangeEvent<any>) => {
         e.preventDefault();
-        window.location.href = `/edit_good/${item.id}`;
+        window.location.href = `/render/read`;
     }
 
     return (

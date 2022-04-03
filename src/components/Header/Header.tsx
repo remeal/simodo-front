@@ -11,8 +11,8 @@ class Header extends React.Component {
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
                     <NavDropdown title="Товары" id="basic-nav-dropdown">
-                        <NavDropdown.Item href='/find_goods'>Найти товар</NavDropdown.Item>
-                        <NavDropdown.Item href='/add_goods'>Добавить товар</NavDropdown.Item>
+                        <NavDropdown.Item href='/all'>Найти товар</NavDropdown.Item>
+                        <NavDropdown.Item href='/render/create'>Добавить товар</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
                 <Nav className="me-auto">
@@ -25,12 +25,6 @@ class Header extends React.Component {
                     <NavDropdown title="Заказы" id="basic-nav-dropdown">
                         <NavDropdown.Item href='/find_goods'>Найти заказ</NavDropdown.Item>
                         <NavDropdown.Item href='/add_goods'>Добавить заказ</NavDropdown.Item>
-                    </NavDropdown>
-                </Nav>
-                <Nav className="me-auto">
-                    <NavDropdown title="Способ доставки" id="basic-nav-dropdown">
-                        <NavDropdown.Item href='/find_goods'>Найти товар</NavDropdown.Item>
-                        <NavDropdown.Item href='/add_goods'>Добавить товар</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
                 <Nav className="me-auto">

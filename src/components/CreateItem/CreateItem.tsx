@@ -3,13 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { Button, FloatingLabel, Form, Row } from 'react-bootstrap';
 
 const initialValue = {
-    item_number: '',
+    id: '',
     name: '',
-    // category: '',
     price: 0,
-    // description: '',
-    // hidden: false,
-    // image: '',
+    count: 0,
 };
 
 const createAddForm = {
@@ -19,23 +16,23 @@ const createAddForm = {
         "name": {
             "type": "text",
             "name": "Наименование товара",
+            "value": "",
         },
         "price": {
             "type": "number",
             "name": "Цена товара",
+            "value": "",
         },
         "count": {
             "type": "number",
             "name": "Количество товара",
+            "value": "",
         }
     }
 };
 const dataForm = Object.entries(createAddForm.data);
 
-const createAddOrder = {"action": "create","data": {"item_number": "number","name": "text","score": "number", "status": "string"}};
-const dataOrder = Object.entries(createAddOrder.data);
-
-const AddFormGood = () => {
+const CreateItem = () => {
 
     const errorPost = null;
     const response = null;
@@ -65,16 +62,10 @@ const AddFormGood = () => {
         e.preventDefault();
         
         const goods = {
-            item_number: values.item_number,
+            id: values.id,
             name: values.name,
-            // category: {
-            //     name: values.category,
-            //     parent: '',
-            // },
             price: values.price,
-            // description: values.description,
-            // hidden: values.hidden,
-            // image: values.image,
+            count: values.count,
         }
         axios.post('/goods', {goods})
             .then(res => {
@@ -114,4 +105,4 @@ const AddFormGood = () => {
     )
 };
 
-export default AddFormGood;
+export default CreateItem;
