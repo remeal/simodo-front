@@ -1,36 +1,28 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, FloatingLabel, Form, Row } from 'react-bootstrap';
+import { IField, IItem } from './types';
 
-const initialValue = {
-    id: '',
+const initialField: IField = {
+    type: 'text',
     name: '',
-    price: 0,
-    count: 0,
+    value: '',
 };
 
-const createAddForm = {
-    "action": "create",
-    "item": "good",
-    "data": {
-        "name": {
-            "type": "text",
-            "name": "Наименование товара",
-            "value": "",
-        },
-        "price": {
-            "type": "number",
-            "name": "Цена товара",
-            "value": "",
-        },
-        "count": {
-            "type": "number",
-            "name": "Количество товара",
-            "value": "",
-        }
-    }
+const initialValue: IItem = {
+    id: initialField,
+    name: initialField,
+    price: initialField,
+    count: initialField,
 };
-const dataForm = Object.entries(createAddForm.data);
+
+
+const initialRenderRequest = {
+    action: '',
+    item: '',
+    data: initialValue,
+}
+
 
 const CreateItem = () => {
 
@@ -39,15 +31,16 @@ const CreateItem = () => {
 
     const [values, setValues] = useState(initialValue);
     const [errors, setError] = useState(errorPost);
-    const [data, setData] = useState();
+    const [dataItem, setData] = useState<any>(initialRenderRequest);
     const [responses, setResponse] = useState(response);
 
-    // useEffect(() => {
-    //     axios.get("")
-    //     .then(res => res.data)
-    //     .then(data => {setData(data)})
-    //     .catch(error => {setError(error)});
-    // });
+    useEffect(() => {
+        axios.get('/render/create')
+        .then(res => res.data)
+        .then(data => {setData(data)})
+        .catch(error => {setError(error)});
+    });
+
     
     const handleChange = (e: React.ChangeEvent<any>) => {
         const name = e.target.name;
@@ -67,7 +60,8 @@ const CreateItem = () => {
             price: values.price,
             count: values.count,
         }
-        axios.post('/goods', {goods})
+
+        axios.post('/create', {goods})
             .then(res => {
                 console.log(res);
                 setResponse(res.data);
@@ -75,32 +69,33 @@ const CreateItem = () => {
             .catch(error => {setError(error)})
     }
 
-    const getNameTitle = (item: string) => {
-        if (item === "good") 
-            return 'товар';
-        if (item === "person")
-            return 'пользователя';
-        if (item === "order")
-            return 'заказ';
-    };
+    const { name, price, count} = dataItem.data;
 
-    const renderForm = (
+    const renderForm = (         
         <>
-            {dataForm.map((value) => {
-                return(<Row className="g-2">
-                    <FloatingLabel controlId="floatingInputGrid" label={value[1].name}>
-                        <Form.Control type={value[1].type} placeholder="text" name={value[0]} onChange={handleChange}/>
-                    </FloatingLabel>
-                </Row>)
-            })}
-            <Button variant="primary" size="lg" onClick={handleAdd}>Добавить {getNameTitle(createAddForm.item)}</Button>
-            { errors ? <div>Ошибка: {getNameTitle(createAddForm.item)} не добавлен!</div> : ''}
-            { responses ? <div>{getNameTitle(createAddForm.item)} добавлен!</div> : ''}
+        <Row className="g-2">
+            <FloatingLabel controlId="floatingInputGrid" label={name.name}>
+                <Form.Control type={name.type} placeholder="text" name={name.name} onChange={handleChange}/>
+            </FloatingLabel>
+        </Row>
+        <Row className="g-2">
+            <FloatingLabel controlId="floatingInputGrid" label={price.name}>
+                <Form.Control type={price.type} placeholder="text" name={price.name} onChange={handleChange}/>
+            </FloatingLabel>
+        </Row>
+        <Row className="g-2">
+            <FloatingLabel controlId="floatingInputGrid" label={count.name}>
+                <Form.Control type={count.type} placeholder="text" name={count.name} onChange={handleChange}/>
+            </FloatingLabel>
+        </Row>
+            <Button variant="primary" size="lg" onClick={handleAdd}>Добавить</Button>
+            { errors ? <div>Ошибка: не добавлено!</div> : ''}
+            { responses ? <div>добавленo!</div> : ''}
         </>
     );
     return (
        <>
-       {createAddForm.data ? renderForm : null}
+       { errors ? <div>Невозможно отрендерить</div> : renderForm}
        </>
     )
 };
