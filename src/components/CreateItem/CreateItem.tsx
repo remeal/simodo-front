@@ -9,8 +9,14 @@ const initialField: IField = {
     value: '',
 };
 
+const initialIdField: IField = {
+    type: 'hidden',
+    name: 'Артикуль',
+    value: '',
+};
+
 const initialValue: IItem = {
-    id: initialField,
+    id: initialIdField,
     name: initialField,
     price: initialField,
     count: initialField,
@@ -23,13 +29,12 @@ const initialRenderRequest = {
     data: initialValue,
 }
 
-
 const CreateItem = () => {
 
     const errorPost = null;
     const response = null;
 
-    const [values, setValues] = useState(initialValue);
+    const [values, setValues] = useState<any>(initialValue);
     const [errors, setError] = useState(errorPost);
     const [dataItem, setData] = useState<any>(initialRenderRequest);
     const [responses, setResponse] = useState(response);
@@ -42,12 +47,12 @@ const CreateItem = () => {
     });
 
     
-    const handleChange = (e: React.ChangeEvent<any>) => {
-        const name = e.target.name;
-        const value = e.target.type === 'checkbox' ? e.target.value = e.target.checked : e.target.value;
+    const handleChange = (field: any, e: React.ChangeEvent<any>) => {
+        const value = e.target.value;
+        const editedField = {...field[1], value};
         setValues({
             ...values,
-            [name]: value,
+            [field[0]]: editedField,
         });
     };
 
@@ -69,28 +74,19 @@ const CreateItem = () => {
             .catch(error => {setError(error)})
     }
 
-    const { name, price, count} = dataItem.data;
+    const arrayFields: [string, any][] = Object.entries(dataItem.data);
 
     const renderForm = (         
         <>
+        {arrayFields.map((field) => (
         <Row className="g-2">
-            <FloatingLabel controlId="floatingInputGrid" label={name.name}>
-                <Form.Control type={name.type} placeholder="text" name={name.name} onChange={handleChange}/>
+            <FloatingLabel controlId="floatingInputGrid" label={field[1].name}>
+                <Form.Control type={field[1].type} placeholder="text" name={field[1].name} onChange={(e) => handleChange(field, e)}/>
             </FloatingLabel>
-        </Row>
-        <Row className="g-2">
-            <FloatingLabel controlId="floatingInputGrid" label={price.name}>
-                <Form.Control type={price.type} placeholder="text" name={price.name} onChange={handleChange}/>
-            </FloatingLabel>
-        </Row>
-        <Row className="g-2">
-            <FloatingLabel controlId="floatingInputGrid" label={count.name}>
-                <Form.Control type={count.type} placeholder="text" name={count.name} onChange={handleChange}/>
-            </FloatingLabel>
-        </Row>
-            <Button variant="primary" size="lg" onClick={handleAdd}>Добавить</Button>
-            { errors ? <div>Ошибка: не добавлено!</div> : ''}
-            { responses ? <div>добавленo!</div> : ''}
+        </Row>))}
+        <Button variant="primary" size="lg" onClick={handleAdd}>Добавить {dataItem.item}</Button>
+        { errors ? <div>Ошибка: {dataItem.item} не добавлено!</div> : ''}
+        { responses ? <div>{dataItem.item} добавленo!</div> : ''}
         </>
     );
     return (

@@ -1,5 +1,5 @@
 export interface IField {
-    type: 'text' | 'number' | 'checkbox',
+    type: 'text' | 'number' | 'checkbox' | 'hidden',
     name: string;
     value: string;
 }
