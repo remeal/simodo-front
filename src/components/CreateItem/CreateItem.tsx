@@ -40,7 +40,11 @@ const CreateItem = () => {
     const [responses, setResponse] = useState(response);
 
     useEffect(() => {
-        axios.get('/render/create')
+        axios.get('/render/create', {
+            headers: {
+              'Access-Control-Allow-Origin': true,
+            },
+        })
         .then(res => res.data)
         .then(data => {setData(data)})
         .catch(error => {setError(error)});
