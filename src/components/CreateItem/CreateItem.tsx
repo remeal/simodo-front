@@ -40,12 +40,9 @@ const CreateItem = () => {
     const [responses, setResponse] = useState(response);
 
     useEffect(() => {
-        axios.get('/render/create', {
-            headers: {
-              'Access-Control-Allow-Origin': true,
-            },
-        })
-        .then(res => res.data)
+        fetch('http://localhost:8000/render/create'
+        )
+        .then((res) => {return res.json()})
         .then(data => {setData(data)})
         .catch(error => {setError(error)});
     });
@@ -70,7 +67,7 @@ const CreateItem = () => {
             count: values.count,
         }
 
-        axios.post('/create', {goods})
+        axios.post('http://localhost:8000/create', {goods})
             .then(res => {
                 console.log(res);
                 setResponse(res.data);

@@ -63,17 +63,19 @@ const FindGoods = () => {
     const [errors, setError] = useState(errorGetGoods);
     const [res, setResponse] = useState<any>(null);
 
-    // useEffect(() => {
-    //     axios.get('/all')
-    //         .then(res  => res.data)
-    //         .then(data => {setResponse(data)})
-    //         .catch(error => {setError(error)})
-    // });
+    useEffect(() => {
+        fetch('http://localhost:8000/all')
+            .then((res) => {return res.json()})
+            .then(data => {setResponse(data)})
+            .catch(error => {setError(error)});
+    });
+
+    console.log(res?.data, 'res');
 
     return (
         <>
             <h3>Все товары:</h3>
-            { errors ? <div>Invalid tag value</div> : ''}
+            { errors ? <div>Невозможно отрендерить</div> : ''}
             <Table striped hover>
                 <thead>
                     <tr>
@@ -86,8 +88,8 @@ const FindGoods = () => {
                     </tr>
                 </thead>
                 {/* {resss ? <GoodItem data={resss}/> : ''} */}
-                { createAddForm.data ? createAddForm.data.map((item: any) => <Item data={item} />) : ''}
-                {/* { res ? res?.data.map((good:any) => <GoodItem data={good}/>) : ''} */}
+                {/*{ createAddForm.data ? createAddForm.data.map((item: any) => <Item data={item} />) : ''}*/}
+                { res ? res?.data.map((good:any) => <Item data={good}/>) : errors}
             </Table>
         </>
     )
